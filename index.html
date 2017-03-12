@@ -11,12 +11,12 @@
 </head>
 
 <body>
-    <h3>HAMBURG'S CAFÉ CULTURE</h3>
+    <header>HAMBURG'S CAFÉ CULTURE</header>
     <hr>
 
     <button id="mobile-navigation">Menu</button>
 
-    <div id="map" onerror:"mapError()"></div>
+    <div id="map"></div>
 
     <form id="form-container" class="form-container">
         <label for="cafe">Café: </label>
@@ -31,7 +31,7 @@
     <script src="js/libs/jquery.min.js"></script>
     <script src="js/knockout.js"></script>
     <script src="js/script.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATp-N1StSrU6XjAJJElMO7IiS6mOmTWO4&callback=initMap">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATp-N1StSrU6XjAJJElMO7IiS6mOmTWO4&callback=initMap" onerror="mapError()">
     </script>
 
 </body>

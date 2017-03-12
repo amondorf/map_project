@@ -45,11 +45,6 @@ var map;
 var CLIENT_ID = "FHPCB4Z0FSTBC0AAKD2SUONSXYLHXVD3ASFWB0JERNDRQG0J";
 var CLIENT_SECRET = "D0DOYUWEXXTQO3ORNJTJDABIGUAMQN0S1CQGVA450KI2DNST";
 
-// as seen in https://www.w3schools.com/jsref/event_onerror.asp
-function mapError() {
-    alert("The map could not be loaded, please try again later!")
-};
-
 // CAFE VIEW
 function initMap() {
     var hamburg = {
@@ -82,8 +77,12 @@ function initMap() {
         });
     }
     ko.applyBindings(new viewModel());
-};
+}
 
+// as seen in https://www.w3schools.com/jsref/event_onerror.asp AND http://codepen.io/NKiD/pen/XNrYXa
+function mapError() {
+    alert("The map could not be loaded, please try again later!");
+}
 
 function populateInfoWindow(marker, infowindow) {
     var fsqURL = 'https://api.foursquare.com/v2/venues/' + marker.id + '?client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&v=20160118' + '&query=' + marker.name;
@@ -99,26 +98,26 @@ function populateInfoWindow(marker, infowindow) {
                 rating = data.response.venue.rating || 'Rating not available';
                 url = data.response.venue.url || 'Website not available';
                 console.log(data);
-                infowindow.setContent("<div><h4>" + name + "</h4></div>" + "Foursquare Rating: " + rating + "<div>" + "Website: " + "<a href='" + url + "'>" + url + "</a>" + "</div>");
                 infowindow.marker = marker;
                 infowindow.open(map, marker);
+                infowindow.setContent("<div><h4>" + name + "</h4></div>" + "Foursquare Rating: " + rating + "<div>" + "Website: " + "<a href='" + url + "'>" + url + "</a>" + "</div>");
                 marker.setAnimation(google.maps.Animation.BOUNCE);
                 // stop bounce as seen in http://stackoverflow.com/questions/7339200/bounce-a-pin-in-google-maps-once
                 setTimeout(function() {
                     marker.setAnimation(null);
-                }, 750);
+                }, 1400);
             },
             error: function() {
-                alert("Foursquare is sleeping, please try again later!")
+                alert("Foursquare is sleeping, please try again later!");
             }
-        })
+        });
     }
-};
-
-var cafeItem = function(data) {
-    this.marker = data.marker;
-    this.name = data.name;
 }
+
+var cafeItem = function(Data) {
+    this.marker = Data.marker;
+    this.name = Data.name;
+};
 
 // CAFE OCTOPUS
 function viewModel() {
@@ -127,13 +126,13 @@ function viewModel() {
     // create list as seen in the cat clicker example
     cafes.forEach(function(cafeList) {
         self.cafeList.push(new cafeItem(cafeList));
-    })
+    });
 
     self.clickedList = function(clickedCafe) {
         var index = clickedCafe.id;
         var marker = clickedCafe.marker;
         google.maps.event.trigger(marker, 'click');
-    }
+    };
 
     // search list function
     self.searchCafes = ko.observable('');
@@ -144,7 +143,7 @@ function viewModel() {
                 self.cafeList.push(cafes[i]);
             }
         }
-    }
+    };
 
     // search markers function
     self.searchMarkers = function(value) {
@@ -152,13 +151,13 @@ function viewModel() {
             if (cafes[i].marker.name.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
                 cafes[i].marker.setVisible(true);
                 console.log(cafes[i].marker.name);
-            } else(cafes[i].marker.setMap(null))
+            } else(cafes[i].marker.setVisible(false));
         }
     };
 
     self.searchCafes.subscribe(self.searchList);
     self.searchCafes.subscribe(self.searchMarkers);
-};
+}
 
 // mobile view
 $(document).ready(function() {
