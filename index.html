@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>The Hamburg Local</title>
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+    <h3>HAMBURG'S CAFÉ CULTURE</h3>
+    <hr>
+
+    <button id="mobile-navigation">Menu</button>
+
+    <div id="map" onerror:"mapError()"></div>
+
+    <form id="form-container" class="form-container">
+        <label for="cafe">Café: </label>
+        <input autocomplete='off' placeholder="Cafe Search.." type="text" id="cafe" value="" data-bind='textInput: searchCafes'>
+    </form>
+
+    <ul class="list" data-bind="foreach: cafeList">
+        <li><b data-bind="text: name, click: $parent.clickedList"></b>
+        </li>
+    </ul>
+
+    <script src="js/libs/jquery.min.js"></script>
+    <script src="js/knockout.js"></script>
+    <script src="js/script.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATp-N1StSrU6XjAJJElMO7IiS6mOmTWO4&callback=initMap">
+    </script>
+
+</body>
+
+</html>
